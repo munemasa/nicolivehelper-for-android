@@ -137,7 +137,7 @@ public class SimpleWebProxy {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					Log.d(TAG, sum+" bytes readed.");
+					Log.d(TAG, sum + " bytes readed.");
 				}
 				Log.d(TAG, "done.");
 
@@ -146,9 +146,11 @@ public class SimpleWebProxy {
 
 			} finally {
 				try {
-					if(streamToClient!=null) streamToClient.close();
-					if(reader!=null) reader.close();
-					clientsocket.close();				
+					if (streamToClient != null)
+						streamToClient.close();
+					if (reader != null)
+						reader.close();
+					clientsocket.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

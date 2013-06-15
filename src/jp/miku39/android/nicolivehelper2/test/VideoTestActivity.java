@@ -7,8 +7,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import jp.miku39.android.nicolivehelper2.R;
-import jp.miku39.android.nicolivehelper2.R.id;
-import jp.miku39.android.nicolivehelper2.R.layout;
 import jp.miku39.android.nicolivehelper2.libs.Http;
 import jp.miku39.android.nicolivehelper2.libs.SimpleWebProxy;
 import android.app.Activity;
@@ -34,7 +32,7 @@ public class VideoTestActivity extends Activity implements Callback {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.videotest_layout);
+		setContentView(R.layout.test_video_layout);
 
 		Intent intent = getIntent();
 		mVideoId = intent.getStringExtra("video_id");
@@ -42,7 +40,7 @@ public class VideoTestActivity extends Activity implements Callback {
 
 	    surfaceView = (SurfaceView) findViewById(R.id.surfaceview_videoplayback);
 	    holder = surfaceView.getHolder();
-    	holder.setFixedSize(640, 380);
+    	//holder.setFixedSize(640, 380);
 	    holder.addCallback(this);
 
 	    Thread th = new Thread( new Runnable() {
@@ -124,6 +122,8 @@ public class VideoTestActivity extends Activity implements Callback {
 						Uri uri = Uri.parse(path);
 						mMediaPlayer = MediaPlayer.create(VideoTestActivity.this, uri);
 						mMediaPlayer.setDisplay(holder);
+
+						holder.setFixedSize( mMediaPlayer.getVideoWidth(), mMediaPlayer.getVideoHeight());
 						mMediaPlayer.start();
 					}
 				});

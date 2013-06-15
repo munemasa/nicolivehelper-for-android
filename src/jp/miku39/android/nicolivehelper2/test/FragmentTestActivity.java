@@ -1,9 +1,6 @@
 package jp.miku39.android.nicolivehelper2.test;
 
 import jp.miku39.android.nicolivehelper2.R;
-import jp.miku39.android.nicolivehelper2.R.id;
-import jp.miku39.android.nicolivehelper2.R.layout;
-import jp.miku39.android.nicolivehelper2.fragments.VideoPlaybackFragment;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;

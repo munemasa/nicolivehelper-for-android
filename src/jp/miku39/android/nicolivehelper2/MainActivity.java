@@ -1,5 +1,7 @@
 package jp.miku39.android.nicolivehelper2;
 
+import java.net.CookieHandler;
+
 import jp.miku39.android.nicolivehelper2.libs.NicoCookie;
 import jp.miku39.android.nicolivehelper2.test.FragmentTestActivity;
 import jp.miku39.android.nicolivehelper2.test.VideoTestActivity;
@@ -41,7 +43,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent( MainActivity.this, VideoTestActivity.class );
-				intent.putExtra("video_id", "sm17239967");
+				intent.putExtra("video_id", "sm19695136");
 				startActivity(intent);				
 			}
 		});

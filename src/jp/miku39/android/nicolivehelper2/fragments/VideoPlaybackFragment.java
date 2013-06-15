@@ -65,6 +65,7 @@ public class VideoPlaybackFragment extends Fragment implements Callback {
 		Log.d(TAG, "onAttach");
 		super.onAttach(activity);
 
+		// TODO 仮位置
 		Thread th = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -125,19 +126,14 @@ public class VideoPlaybackFragment extends Fragment implements Callback {
 				Log.d(TAG, "Video Data Url=" + str);
 
 				final String video_url = str;
-				getActivity().runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						// MediaPlayerでの再生がCookieをうまく渡せていないのかうまくいかない
-						String path = "http://localhost:8081/" + video_url;
-						Uri uri = Uri.parse(path);
-						mMediaPlayer = MediaPlayer.create(getActivity(), uri);
-						if (mMediaPlayer != null) {
-							mMediaPlayer.setDisplay(mHolder);
-							mMediaPlayer.start();
-						}
-					}
-				});
+				// MediaPlayerでの再生がCookieをうまく渡せていないのかうまくいかない
+				String path = "http://localhost:8081/" + video_url;
+				Uri uri = Uri.parse(path);
+				mMediaPlayer = MediaPlayer.create(getActivity(), uri);
+				if (mMediaPlayer != null) {
+					mMediaPlayer.setDisplay(mHolder);
+					mMediaPlayer.start();
+				}
 			}
 		});
 		th.start();

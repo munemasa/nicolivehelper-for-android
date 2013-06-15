@@ -7,8 +7,9 @@
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="17" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -24,10 +25,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="NicoWebActivity"></activity>
-        <activity android:name=".test.VideoTestActivity"></activity>
-        <activity android:name="NicoLiveHelperMainActivity"></activity>
-        <activity android:name=".test.FragmentTestActivity"></activity>
+        <activity android:name="jp.miku39.android.nicolivehelper2.NicoWebActivity" >
+        </activity>
+        <activity android:name="jp.miku39.android.nicolivehelper2.test.VideoTestActivity" >
+        </activity>
+        <activity android:name="jp.miku39.android.nicolivehelper2.NicoLiveHelperMainActivity" >
+        </activity>
+        <activity android:name="jp.miku39.android.nicolivehelper2.test.FragmentTestActivity" >
+        </activity>
+        <activity
+            android:name="jp.miku39.android.nicolivehelper2.test.TestTabSwipeActivity"
+            android:label="@string/title_activity_test_tab_swipe" >
+        </activity>
     </application>
 
 </manifest>

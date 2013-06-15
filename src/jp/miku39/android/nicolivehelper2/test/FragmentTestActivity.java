@@ -17,11 +17,11 @@ public class FragmentTestActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragmenttest_layout);
+		setContentView(R.layout.activity_fragmenttest);
 
 		mCount = 0;
 
-		Button btn = (Button) findViewById(R.id.button1);
+		Button btn = (Button) findViewById(R.id.btn_tabswipte_test);
 		btn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

@@ -4,6 +4,7 @@ import java.net.CookieHandler;
 
 import jp.miku39.android.nicolivehelper2.libs.NicoCookie;
 import jp.miku39.android.nicolivehelper2.test.FragmentTestActivity;
+import jp.miku39.android.nicolivehelper2.test.TestTabSwipeActivity;
 import jp.miku39.android.nicolivehelper2.test.VideoTestActivity;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -24,44 +25,56 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
 		ActionBar bar = getActionBar();
 		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		
-		
-		Button btn = (Button)findViewById(R.id.btn_nicoweb);
+
+		Button btn = (Button) findViewById(R.id.btn_nicoweb);
 		btn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent( MainActivity.this, NicoWebActivity.class );
+				Intent intent = new Intent(MainActivity.this,
+						NicoWebActivity.class);
 				startActivity(intent);
 			}
 		});
 
-		btn = (Button)findViewById(R.id.btn_videotest);
-		btn.setOnClickListener( new OnClickListener() {
+		btn = (Button) findViewById(R.id.btn_videotest);
+		btn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent( MainActivity.this, VideoTestActivity.class );
+				Intent intent = new Intent(MainActivity.this,
+						VideoTestActivity.class);
 				intent.putExtra("video_id", "sm19695136");
-				startActivity(intent);				
-			}
-		});
-		
-		btn = (Button)findViewById(R.id.btn_fragmenttest);
-		btn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent( MainActivity.this, FragmentTestActivity.class );
 				startActivity(intent);
 			}
 		});
 
-        CookieSyncManager.createInstance(this);
-        CookieSyncManager.getInstance().startSync();
-        CookieManager.getInstance().setAcceptCookie(true);
+		btn = (Button) findViewById(R.id.btn_fragmenttest);
+		btn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this,
+						FragmentTestActivity.class);
+				startActivity(intent);
+			}
+		});
 
-        Log.d(TAG, "Nico Cookie="+NicoCookie.getCookie("nicovideo.jp"));
+		btn = (Button) findViewById(R.id.btn_tabswipte_test);
+		btn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this,
+						TestTabSwipeActivity.class);
+				startActivity(intent);
+			}
+		});
+
+		CookieSyncManager.createInstance(this);
+		CookieSyncManager.getInstance().startSync();
+		CookieManager.getInstance().setAcceptCookie(true);
+
+		Log.d(TAG, "Nico Cookie=" + NicoCookie.getCookie("nicovideo.jp"));
 	}
 
 	@Override

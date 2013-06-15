@@ -17,7 +17,7 @@ public class NicoLiveHelperMainActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	    setContentView(R.layout.nicolivehelper_main_layout);
+	    setContentView(R.layout.activity_nicolivehelper_main);
 	    
 	    Intent intent = getIntent();
 	    mLvid = intent.getStringExtra("lvid");

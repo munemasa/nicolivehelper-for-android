@@ -49,7 +49,7 @@ public class VideoPlaybackFragment extends Fragment implements Callback {
 			Bundle savedInstanceState) {
 		Log.d(TAG, "onCreateView");
 
-		View v = inflater.inflate(R.layout.videoplayback_fragment, container,
+		View v = inflater.inflate(R.layout.fragment_videoplayback, container,
 				false);
 
 		mSurface = (SurfaceView) v.findViewById(R.id.surfaceview_videoplayback);

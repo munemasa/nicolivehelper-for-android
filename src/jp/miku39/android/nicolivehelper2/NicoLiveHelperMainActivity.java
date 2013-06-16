@@ -3,6 +3,7 @@ package jp.miku39.android.nicolivehelper2;
 import java.util.Date;
 
 import jp.miku39.android.nicolivehelper2.fragments.VideoPlaybackFragment;
+import jp.miku39.android.nicolivehelper2.libs.Lib;
 import jp.miku39.android.nicolivehelper2.libs.SimpleWebProxy;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -17,7 +18,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +30,7 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 
 	String mLvid;
 
-	CommentServer mCommentReceiveThread;
+	CommentServer mCommunicationThread;
 	PlayerStatus mPlayerStatus;
 	PublishStatus mPublishStatus;
 
@@ -37,6 +40,8 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getWindow().setSoftInputMode(
+				LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		setContentView(R.layout.activity_nicolivehelper_main);
 
 		Intent intent = getIntent();
@@ -50,15 +55,26 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 
 		initTab(bar);
 		startThreads();
-		
+
 		// 送信ボタン
-		Button btn = (Button)findViewById(R.id.btn_send);
+		Button btn = (Button) findViewById(R.id.btn_send);
 		btn.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				Lib.hideSoftwareKeyboard(NicoLiveHelperMainActivity.this, v);
+
+				EditText et = (EditText) findViewById(R.id.inputcomment);
+				final String comment = et.getEditableText().toString();
+				// TODO コマンドなど
+				final String mail = "184";
+				final String name = "";
+				Thread th = new Thread(new Runnable() {
+					@Override
+					public void run() {
+						mCommunicationThread.sendComment(comment, mail, name);
+					}
+				});
+				th.start();
 			}
 		});
 	}
@@ -77,10 +93,10 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 			@Override
 			public void run() {
 				new PlayerStatus(mLvid);
-				mCommentReceiveThread = new CommentServer(
+				mCommunicationThread = new CommentServer(
 						NicoLiveHelperMainActivity.this, PlayerStatus.sAddr,
 						PlayerStatus.sPort, PlayerStatus.sThread);
-				mCommentReceiveThread.start();
+				mCommunicationThread.start();
 			}
 		});
 		th.start();
@@ -113,7 +129,7 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 	protected void onDestroy() {
 		super.onDestroy();
 
-		mCommentReceiveThread.finish();
+		mCommunicationThread.finish();
 
 		SimpleWebProxy.terminate();
 	}

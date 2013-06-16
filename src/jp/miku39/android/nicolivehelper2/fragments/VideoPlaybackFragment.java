@@ -54,9 +54,14 @@ public class VideoPlaybackFragment extends Fragment implements Callback {
 
 		mSurface = (SurfaceView) v.findViewById(R.id.surfaceview_videoplayback);
 		mHolder = mSurface.getHolder();
-
 		// TODO 動画サイズは調整が必要
-		mHolder.setFixedSize(640, 380);
+		// 512x384 640x360 640x384
+		// xhdpi 1280x720端末で640x360ちょうどいい感じなので
+		// DP単位だと 320x180 か。
+		final float scale = getActivity().getResources().getDisplayMetrics().density;
+		mHolder.setFixedSize((int) (320 * scale), (int) (180 * scale));
+		// mHolder.setFixedSize( 640, 360);
+
 		mHolder.addCallback(this);
 		return v;
 	}
@@ -124,8 +129,6 @@ public class VideoPlaybackFragment extends Fragment implements Callback {
 				if (mMediaPlayer != null) {
 					mMediaPlayer.setDisplay(mHolder);
 					mMediaPlayer.start();
-					int w = mMediaPlayer.getVideoWidth();
-					int h = mMediaPlayer.getVideoHeight();
 				}
 			}
 		});

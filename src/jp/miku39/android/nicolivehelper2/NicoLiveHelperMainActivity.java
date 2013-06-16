@@ -9,9 +9,11 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -142,6 +144,40 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 	}
 
 	@Override
+	public void onBackPressed() {
+		if (!PlayerStatus.sStatus.equals("ok")) {
+			finish();
+			return;
+		}
+		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				this);
+		// タイトルを設定
+		alertDialogBuilder.setTitle("Caution !");
+		// メッセージを設定
+		alertDialogBuilder.setMessage("生放送から切断しますか？");
+		// アイコンを設定
+		alertDialogBuilder.setIcon(R.drawable.ic_launcher);
+		// Positiveボタンとリスナを設定
+		alertDialogBuilder.setPositiveButton(getString(android.R.string.yes),
+				new android.content.DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						finish();
+					}
+				});
+		// Negativeボタンとリスナを設定
+		alertDialogBuilder.setNegativeButton(getString(android.R.string.no),
+				new android.content.DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+					}
+				});
+
+		// ダイアログを表示
+		alertDialogBuilder.create().show();
+	}
+
+	@Override
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
 		Log.d(TAG, "onTabReselected");
@@ -177,10 +213,17 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 		th.start();
 	}
 
+	/**
+	 * コメントを表示する
+	 * 
+	 * @param c
+	 *            コメントデータ
+	 */
 	@SuppressWarnings("deprecation")
 	public void addComment(Comment c) {
 		final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		final View view = inflater.inflate(R.layout.commentrow, null);
+
 		TextView v;
 		v = (TextView) view.findViewById(R.id.comment_no);
 		v.setText(c.comment_no.toString());

@@ -31,7 +31,6 @@ public class NicoWebActivity extends Activity {
 		@Override
 		public void onPageStarted(WebView view, String url, Bitmap favicon) {
 			super.onPageStarted(view, url, favicon);
-			setProgressBarIndeterminateVisibility(true);
 			
 			ProgressBar bar = (ProgressBar)findViewById(R.id.webloading_progressbar);
 			bar.setVisibility(View.VISIBLE);
@@ -40,7 +39,7 @@ public class NicoWebActivity extends Activity {
 		@Override
 		public void onPageFinished(WebView view, String url) {
 			super.onPageFinished(view, url);
-			setProgressBarIndeterminateVisibility(false);
+
 			ProgressBar bar = (ProgressBar)findViewById(R.id.webloading_progressbar);
 			bar.setVisibility(View.GONE);
 		}
@@ -70,7 +69,6 @@ public class NicoWebActivity extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature( Window.FEATURE_INDETERMINATE_PROGRESS );
         setContentView(R.layout.activity_nicoweb);
 
         mWeb = (WebView) findViewById(R.id.loginweb);

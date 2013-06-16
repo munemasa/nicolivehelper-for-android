@@ -55,6 +55,7 @@ public class VideoPlaybackFragment extends Fragment implements Callback {
 		mSurface = (SurfaceView) v.findViewById(R.id.surfaceview_videoplayback);
 		mHolder = mSurface.getHolder();
 
+		// TODO 動画サイズは調整が必要
 		mHolder.setFixedSize(640, 380);
 		mHolder.addCallback(this);
 		return v;
@@ -64,22 +65,12 @@ public class VideoPlaybackFragment extends Fragment implements Callback {
 	public void onAttach(Activity activity) {
 		Log.d(TAG, "onAttach");
 		super.onAttach(activity);
-
-		// TODO 仮位置
-		Thread th = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				SimpleWebProxy.runServer(8081);
-			}
-		});
-		th.start();
 	}
 
 	@Override
 	public void onDetach() {
 		Log.d(TAG, "onDetach");
 		super.onDetach();
-		SimpleWebProxy.terminate();
 	}
 
 	void playVideo() {
@@ -133,6 +124,8 @@ public class VideoPlaybackFragment extends Fragment implements Callback {
 				if (mMediaPlayer != null) {
 					mMediaPlayer.setDisplay(mHolder);
 					mMediaPlayer.start();
+					int w = mMediaPlayer.getVideoWidth();
+					int h = mMediaPlayer.getVideoHeight();
 				}
 			}
 		});

@@ -37,6 +37,10 @@
             android:name="jp.miku39.android.nicolivehelper2.test.TestTabSwipeActivity"
             android:label="@string/title_activity_test_tab_swipe" >
         </activity>
+        <activity
+            android:name="jp.miku39.android.nicolivehelper2.test.TabTestActivity"
+            android:label="@string/title_activity_tab_test" >
+        </activity>
     </application>
 
 </manifest>

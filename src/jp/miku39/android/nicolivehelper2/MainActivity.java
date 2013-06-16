@@ -4,6 +4,7 @@ import java.net.CookieHandler;
 
 import jp.miku39.android.nicolivehelper2.libs.NicoCookie;
 import jp.miku39.android.nicolivehelper2.test.FragmentTestActivity;
+import jp.miku39.android.nicolivehelper2.test.TabTestActivity;
 import jp.miku39.android.nicolivehelper2.test.TestTabSwipeActivity;
 import jp.miku39.android.nicolivehelper2.test.VideoTestActivity;
 import android.app.ActionBar;
@@ -65,7 +66,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(MainActivity.this,
-						TestTabSwipeActivity.class);
+						TabTestActivity.class);
 				startActivity(intent);
 			}
 		});

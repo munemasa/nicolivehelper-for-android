@@ -7,5 +7,7 @@
     -->
 
     <dimen name="activity_horizontal_margin">128dp</dimen>
+    <dimen name="video_width">640dp</dimen>
+    <dimen name="video_height">360dp</dimen>
 
 </resources>

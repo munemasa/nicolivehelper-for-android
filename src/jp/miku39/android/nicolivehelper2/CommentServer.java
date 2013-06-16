@@ -252,9 +252,7 @@ public class CommentServer extends Thread {
 					mMainContext.runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							// TODO Auto-generated method stub
-							// mMainContext.addHistory(vid + " " + title +
-							// "\n");
+							mMainContext.addHistory(vid + " " + title + "\n");
 
 							if (comment.date > PlayerStatus.sConnectedTime) {
 								if (vid.indexOf("sm") == 0

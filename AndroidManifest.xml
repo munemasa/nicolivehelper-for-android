@@ -29,7 +29,7 @@
         </activity>
         <activity android:name="jp.miku39.android.nicolivehelper2.test.VideoTestActivity" >
         </activity>
-        <activity android:name="jp.miku39.android.nicolivehelper2.NicoLiveHelperMainActivity" >
+        <activity android:name="jp.miku39.android.nicolivehelper2.NicoLiveHelperMainActivity" android:windowSoftInputMode="adjustResize">
         </activity>
         <activity android:name="jp.miku39.android.nicolivehelper2.test.FragmentTestActivity" >
         </activity>

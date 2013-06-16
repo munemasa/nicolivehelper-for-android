@@ -16,11 +16,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
+import android.view.View.OnTouchListener;
 import android.view.WindowManager.LayoutParams;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -32,6 +36,12 @@ import android.widget.Toast;
 
 public class NicoLiveHelperMainActivity extends Activity implements TabListener {
 	final static String TAG = "NicoLiveHelperMainActivity";
+
+	final static int TAB_COMMENT = 0;
+	final static int TAB_REQUEST = 1;
+	final static int TAB_STOCK = 2;
+	final static int TAB_HISTORY = 3;
+	final static int MAX_TAB = 4;
 
 	String mLvid;
 
@@ -77,6 +87,21 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 			}
 		});
 
+		OnFocusChangeListener editTextOnFocusChange = new View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				// EditTextのフォーカスが外れた場合
+				if (hasFocus == false) {
+					// 処理を行う
+					Lib.hideSoftwareKeyboard(NicoLiveHelperMainActivity.this, v);
+				}
+			}
+		};
+		et.setOnFocusChangeListener( editTextOnFocusChange );
+
+		et = (EditText) findViewById(R.id.edit_history);
+		et.setOnFocusChangeListener( editTextOnFocusChange );
+
 		// 送信ボタン
 		Button btn = (Button) findViewById(R.id.btn_send);
 		btn.setOnClickListener(new OnClickListener() {
@@ -113,6 +138,12 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 
 	private void initTab(ActionBar bar) {
 		Tab tab;
+
+		tab = bar.newTab();
+		tab.setText("コメント");
+		tab.setTabListener(this);
+		bar.addTab(tab);
+
 		tab = bar.newTab();
 		tab.setText("リクエスト");
 		tab.setTabListener(this);
@@ -120,11 +151,6 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 
 		tab = bar.newTab();
 		tab.setText("ストック");
-		tab.setTabListener(this);
-		bar.addTab(tab);
-
-		tab = bar.newTab();
-		tab.setText("コメント");
 		tab.setTabListener(this);
 		bar.addTab(tab);
 
@@ -187,6 +213,35 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
 		Log.d(TAG, "onTabSelected");
+
+		int n = tab.getPosition();
+		showTab(n);
+	}
+
+	void showTab(int n) {
+		View v;
+
+		switch (n) {
+		case TAB_COMMENT:
+			v = findViewById(R.id.tab_comment);
+			v.setVisibility(View.VISIBLE);
+
+			v = findViewById(R.id.tab_history);
+			v.setVisibility(View.INVISIBLE);
+			break;
+
+		case TAB_HISTORY:
+			v = findViewById(R.id.tab_history);
+			v.setVisibility(View.VISIBLE);
+
+			v = findViewById(R.id.tab_comment);
+			v.setVisibility(View.INVISIBLE);
+			break;
+
+		default:
+			break;
+		}
+
 	}
 
 	@Override
@@ -211,6 +266,11 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 			}
 		});
 		th.start();
+	}
+
+	public void addHistory(String s) {
+		EditText edit = (EditText) findViewById(R.id.edit_history);
+		edit.append(s);
 	}
 
 	/**

@@ -3,7 +3,7 @@ package jp.miku39.android.nicolivehelper2;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import jp.miku39.android.nicolivehelper2.libs.CommonUtils;
+import jp.miku39.android.nicolivehelper2.libs.Lib;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -56,7 +56,7 @@ public class NicoWebActivity extends Activity {
             	intent.putExtra("lvid", lvid );
             	startActivity(intent);
 			}else{
-				CommonUtils.setStringValue( NicoWebActivity.this, "last-url", url);
+				Lib.setStringValue( NicoWebActivity.this, "last-url", url);
 				return super.shouldOverrideUrlLoading(view, url);
 			}
 			return true;
@@ -79,7 +79,7 @@ public class NicoWebActivity extends Activity {
         mWeb.getSettings().setUseWideViewPort(true);
         mWeb.setWebViewClient(new MyWebViewClient());
 
-		String str = CommonUtils.getStringValue( this, "last-url" );
+		String str = Lib.getStringValue( this, "last-url" );
 		if( str.length()>0 ){
 			mWeb.loadUrl(str);
 		}else{

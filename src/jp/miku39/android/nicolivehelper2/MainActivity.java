@@ -27,9 +27,6 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		ActionBar bar = getActionBar();
-		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
 		Button btn = (Button) findViewById(R.id.btn_nicoweb);
 		btn.setOnClickListener(new OnClickListener() {
 			@Override

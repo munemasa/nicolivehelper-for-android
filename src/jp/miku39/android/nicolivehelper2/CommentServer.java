@@ -127,6 +127,12 @@ public class CommentServer extends Thread {
 		return null;
 	}
 
+	/**
+	 * コメントを送信する
+	 * @param comment コメント
+	 * @param mail コマンド
+	 * @param name 名前
+	 */
 	public boolean sendComment(String comment, String mail, String name) {
 		if (PlayerStatus.sIsOwner) {
 			final String uri = "http://watch.live.nicovideo.jp/api/broadcast/"
@@ -365,7 +371,7 @@ public class CommentServer extends Thread {
 						b[i] = line.get(i);
 					}
 					final String s = new String(b, "UTF-8");
-					Log.d(TAG, s);
+//					Log.d(TAG, s);
 					processData(s);
 					line.clear();
 				} else {

@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,18 +39,31 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_nicolivehelper_main);
 
+		Intent intent = getIntent();
+		mLvid = intent.getStringExtra("lvid");
+		Log.d(TAG, "Request Id=" + mLvid);
+
+		mCommentTable = (TableLayout) findViewById(R.id.commenttable);
+
 		final ActionBar bar = getActionBar();
 		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		initTab(bar);
+		startThreads();
+		
+		// 送信ボタン
+		Button btn = (Button)findViewById(R.id.btn_send);
+		btn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
 
-		Intent intent = getIntent();
-		mLvid = intent.getStringExtra("lvid");
-
-		mCommentTable = (TableLayout) findViewById(R.id.commenttable);
-
-		Log.d(TAG, "Request Id=" + mLvid);
-
+	private void startThreads() {
 		Thread th;
 		th = new Thread(new Runnable() {
 			@Override

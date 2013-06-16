@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 public class Lib {
+	final static String sPrefsName = "prefs";
+
 	
 	/**
 	 * 現在時刻を取得.
@@ -26,6 +28,11 @@ public class Lib {
 		return (int) (d.getTime()/1000);
 	}
 
+	/**
+	 * 文字列をHTMLエスケープする
+	 * @param s 文字列
+	 * @return HTMLエスケープした文字列を返す
+	 */
 	public static final String escapeHTML(String s) {
 		StringBuffer sb = new StringBuffer();
 		int n = s.length();
@@ -192,8 +199,6 @@ public class Lib {
 			e.printStackTrace();
 		}
 	}
-
-	final static String sPrefsName = "prefs";
 
 	public static String getStringValue(Context ctx, String key){
 		return ctx.getSharedPreferences(sPrefsName, Context.MODE_PRIVATE).getString(key, "");

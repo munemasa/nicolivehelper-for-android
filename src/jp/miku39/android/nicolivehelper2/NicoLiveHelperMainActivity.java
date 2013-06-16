@@ -15,14 +15,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager.LayoutParams;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 public class NicoLiveHelperMainActivity extends Activity implements TabListener {
@@ -56,25 +59,29 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 		initTab(bar);
 		startThreads();
 
+		// ソフトキーボードでSend押したときの処理
+		EditText et = (EditText) findViewById(R.id.inputcomment);
+		et.setOnEditorActionListener(new OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId,
+					KeyEvent event) {
+				boolean handled = false;
+				if (actionId == EditorInfo.IME_ACTION_SEND) {
+					Lib.hideSoftwareKeyboard(NicoLiveHelperMainActivity.this, v);
+					sendComment();
+					handled = true;
+				}
+				return handled;
+			}
+		});
+
 		// 送信ボタン
 		Button btn = (Button) findViewById(R.id.btn_send);
 		btn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Lib.hideSoftwareKeyboard(NicoLiveHelperMainActivity.this, v);
-
-				EditText et = (EditText) findViewById(R.id.inputcomment);
-				final String comment = et.getEditableText().toString();
-				// TODO コマンドなど
-				final String mail = "184";
-				final String name = "";
-				Thread th = new Thread(new Runnable() {
-					@Override
-					public void run() {
-						mCommunicationThread.sendComment(comment, mail, name);
-					}
-				});
-				th.start();
+				sendComment();
 			}
 		});
 	}
@@ -152,6 +159,24 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 		Log.d(TAG, "onTabUnselected");
 	}
 
+	/**
+	 * コメントを送信する
+	 */
+	private void sendComment() {
+		EditText et = (EditText) findViewById(R.id.inputcomment);
+		final String comment = et.getEditableText().toString();
+		// TODO コマンドなど
+		final String mail = "184";
+		final String name = "";
+		Thread th = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				mCommunicationThread.sendComment(comment, mail, name);
+			}
+		});
+		th.start();
+	}
+
 	@SuppressWarnings("deprecation")
 	public void addComment(Comment c) {
 		final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -186,6 +211,12 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 		}
 	}
 
+	/**
+	 * 動画を再生する.
+	 * 
+	 * @param video_id
+	 *            再生する動画ID
+	 */
 	public void playbackVideo(String video_id) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 
@@ -199,6 +230,14 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 		ft.commit();
 	}
 
+	/**
+	 * トーストメッセージを表示する
+	 * 
+	 * @param msg
+	 *            表示するメッセージ
+	 * @param length
+	 *            表示時間
+	 */
 	public void showToast(String msg, int length) {
 		Toast.makeText(this, msg, length).show();
 	}

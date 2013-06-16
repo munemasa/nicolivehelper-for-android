@@ -241,9 +241,8 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 		final Date d = new Date(c.date * 1000);
 		int m = d.getMinutes();
 		int s = d.getSeconds();
-		final String datestr = d.getMonth() + "/" + d.getDate() + " "
-				+ d.getHours() + ":" + (m < 10 ? "0" + m : m) + ":"
-				+ (s < 10 ? "0" + s : s);
+		final String datestr = d.getHours() + ":" + (m < 10 ? "0" + m : m)
+				+ ":" + (s < 10 ? "0" + s : s);
 		v.setText(datestr);
 
 		mCommentTable.addView(view, 0);

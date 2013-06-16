@@ -15,11 +15,14 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -97,10 +100,10 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 				}
 			}
 		};
-		et.setOnFocusChangeListener( editTextOnFocusChange );
+		et.setOnFocusChangeListener(editTextOnFocusChange);
 
 		et = (EditText) findViewById(R.id.edit_history);
-		et.setOnFocusChangeListener( editTextOnFocusChange );
+		et.setOnFocusChangeListener(editTextOnFocusChange);
 
 		// 送信ボタン
 		Button btn = (Button) findViewById(R.id.btn_send);
@@ -248,6 +251,32 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
 		Log.d(TAG, "onTabUnselected");
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.nicolivehelpermainactivity, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+		case R.id.open_officialapp:
+			openOfficialApp( mLvid );
+			return true;
+
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	void openOfficialApp(String id){
+		String str = "http://live.nicovideo.jp/watch/"+id;
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(str) );
+		startActivity(intent);
 	}
 
 	/**

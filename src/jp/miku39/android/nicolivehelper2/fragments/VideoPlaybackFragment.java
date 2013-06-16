@@ -122,13 +122,17 @@ public class VideoPlaybackFragment extends Fragment implements Callback {
 				Log.d(TAG, "Video Data Url=" + str);
 
 				final String video_url = str;
-				// MediaPlayerでの再生がCookieをうまく渡せていないのかうまくいかない
-				String path = "http://localhost:8081/" + video_url;
-				Uri uri = Uri.parse(path);
-				mMediaPlayer = MediaPlayer.create(getActivity(), uri);
-				if (mMediaPlayer != null) {
-					mMediaPlayer.setDisplay(mHolder);
-					mMediaPlayer.start();
+				try {
+					// MediaPlayerでの再生がCookieをうまく渡せていないのかうまくいかない
+					String path = "http://localhost:8081/" + video_url;
+					Uri uri = Uri.parse(path);
+					mMediaPlayer = MediaPlayer.create(getActivity(), uri);
+					if (mMediaPlayer != null) {
+						mMediaPlayer.setDisplay(mHolder);
+						mMediaPlayer.start();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		});

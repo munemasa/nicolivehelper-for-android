@@ -20,10 +20,10 @@ import android.util.Log;
 public class PublishStatus {
 	final static String TAG = "PublishStatus";
 
-	protected static String mToken = "";
-	protected static Long mStartTime = 0L;
-	protected static Long mEndTime = 0L;
-	protected static int mExclude = 0;
+	protected static String sToken = "";
+	protected static Long sStartTime = 0L;
+	protected static Long sEndTime = 0L;
+	protected static int sExclude = 0;
 
 	public PublishStatus(String lv) {
 		final String uri = "http://watch.live.nicovideo.jp/api/getpublishstatus?v="
@@ -52,16 +52,16 @@ public class PublishStatus {
 			Document document = docBuilder.parse(is);
 			XPath xpath = XPathFactory.newInstance().newXPath();
 
-			mToken = xpath.evaluate("/getpublishstatus/stream/token", document);
-			mStartTime = Long.parseLong(xpath.evaluate(
+			sToken = xpath.evaluate("/getpublishstatus/stream/token", document);
+			sStartTime = Long.parseLong(xpath.evaluate(
 					"/getpublishstatus/stream/start_time", document));
-			mEndTime = Long.parseLong(xpath.evaluate(
+			sEndTime = Long.parseLong(xpath.evaluate(
 					"/getpublishstatus/stream/end_time", document));
-			mExclude = Integer.parseInt(xpath.evaluate(
+			sExclude = Integer.parseInt(xpath.evaluate(
 					"/getpublishstatus/stream/token", document));
 
-			Log.d(TAG, "Token=" + mToken);
-			Log.d(TAG, "Exclude=" + mExclude);
+			Log.d(TAG, "Token=" + sToken);
+			Log.d(TAG, "Exclude=" + sExclude);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

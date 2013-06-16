@@ -1,13 +1,9 @@
 package jp.miku39.android.nicolivehelper2;
 
-import java.net.CookieHandler;
-
 import jp.miku39.android.nicolivehelper2.libs.NicoCookie;
 import jp.miku39.android.nicolivehelper2.test.FragmentTestActivity;
 import jp.miku39.android.nicolivehelper2.test.TabTestActivity;
-import jp.miku39.android.nicolivehelper2.test.TestTabSwipeActivity;
 import jp.miku39.android.nicolivehelper2.test.VideoTestActivity;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

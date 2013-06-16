@@ -145,7 +145,7 @@ public class CommentServer extends Thread {
 			if (name != null) {
 				pair.add(new BasicNameValuePair("name", name));
 			}
-			pair.add(new BasicNameValuePair("token", PublishStatus.mToken));
+			pair.add(new BasicNameValuePair("token", PublishStatus.sToken));
 			UrlEncodedFormEntity entity;
 			try {
 				entity = new UrlEncodedFormEntity(pair, "UTF-8");

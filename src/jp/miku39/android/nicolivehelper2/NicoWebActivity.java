@@ -19,6 +19,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 public class NicoWebActivity extends Activity {
 	final static String TAG = "NicoWebActivity";
@@ -131,10 +132,7 @@ public class NicoWebActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(Menu.NONE, MENU_ID_MENU1, Menu.NONE, "Previous");
-        menu.add(Menu.NONE, MENU_ID_MENU2, Menu.NONE, "Forward");
-        menu.add(Menu.NONE, MENU_ID_MENU3, Menu.NONE, "NicoLive Top");
-        menu.add(Menu.NONE, MENU_ID_MENU4, Menu.NONE, "My Page");
+        menu.add(Menu.NONE, MENU_ID_MENU1, Menu.NONE, "放送IDを入力して接続");
 		return super.onCreateOptionsMenu(menu);
 	}
 	@Override
@@ -145,20 +143,8 @@ public class NicoWebActivity extends Activity {
             super.onOptionsItemSelected(item);
             break;
         case MENU_ID_MENU1:
-        	if( mWeb.canGoBack() ){
-        		mWeb.goBack();
-        	}
-            break;
-        case MENU_ID_MENU2:
-        	if( mWeb.canGoForward() ){
-        		mWeb.goForward();
-        	}
-            break;
-        case MENU_ID_MENU3:
-        	mWeb.loadUrl("http://live.nicovideo.jp/");
-            break;
-        case MENU_ID_MENU4:
-        	mWeb.loadUrl("http://live.nicovideo.jp/my");
+        	// TODO 放送IDを入力して接続
+        	Toast.makeText(this, "Not implemented", Toast.LENGTH_SHORT).show();
             break;
         }
         return true;

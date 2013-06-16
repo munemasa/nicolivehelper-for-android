@@ -252,7 +252,7 @@ public class CommentServer extends Thread {
 							// mMainContext.addHistory(vid + " " + title +
 							// "\n");
 
-							if (Lib.getNowTime() > PlayerStatus.sConnectedTime) {
+							if (comment.date > PlayerStatus.sConnectedTime) {
 								if (vid.indexOf("sm") == 0
 										|| vid.indexOf("so") == 0) {
 									mMainContext.playbackVideo(vid);

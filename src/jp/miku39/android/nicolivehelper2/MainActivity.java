@@ -22,6 +22,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		int panes = getResources().getInteger(R.integer.panes);
+		Log.d(TAG,"Number of panes: "+panes);
 
 		Button btn = (Button) findViewById(R.id.btn_nicoweb);
 		btn.setOnClickListener(new OnClickListener() {

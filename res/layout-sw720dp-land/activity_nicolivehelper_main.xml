@@ -6,14 +6,26 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal" >
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
-        <FrameLayout
-            android:id="@+id/videoplayback_fragment_container"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-        </FrameLayout>
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" >
+
+            <FrameLayout
+                android:id="@+id/videoplayback_fragment_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+            </FrameLayout>
+        </LinearLayout>
+
+        <fragment
+            android:id="@id/requestlist_fragment"
+            android:name="jp.miku39.android.nicolivehelper2.fragments.RequestListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

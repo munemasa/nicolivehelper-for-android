@@ -127,9 +127,13 @@ public class CommentServer extends Thread {
 
 	/**
 	 * コメントを送信する
-	 * @param comment コメント
-	 * @param mail コマンド
-	 * @param name 名前
+	 * 
+	 * @param comment
+	 *            コメント
+	 * @param mail
+	 *            コマンド
+	 * @param name
+	 *            名前
 	 */
 	public boolean sendComment(String comment, String mail, String name) {
 		if (PlayerStatus.sIsOwner) {
@@ -217,29 +221,32 @@ public class CommentServer extends Thread {
 				mMainContext.addComment(comment);
 			}
 		});
-		// if( comment.premium!=3 ){
-		// // 主コメじゃない
-		// if( PlayerStatus.mConnectedTime <= comment.date ){
-		// Pattern p = Pattern.compile("((sm|nm)\\d+)");
-		// Matcher m = p.matcher(comment.text);
-		// if( m.find() ){
-		// final String vid = m.group(1);
-		// Log.d(TAG,"Request:"+vid);
-		// Thread th = new Thread( new Runnable(){
-		// @Override
-		// public void run() {
-		// final VideoInformation v = new
-		// VideoInformation("http://ext.nicovideo.jp/api/getthumbinfo/"+vid);
-		// mHandler.post( new Runnable(){
-		// @Override
-		// public void run() {
-		// mMainContext.addRequest(v);
-		// }} );
-		// }} );
-		// th.start();
-		// }
-		// }
-		// }
+		if (comment.premium != 3) {
+			// 主コメじゃない
+			if (PlayerStatus.sConnectedTime <= comment.date) {
+				Pattern p = Pattern.compile("((sm|nm)\\d+)");
+				Matcher m = p.matcher(comment.text);
+				if (m.find()) {
+					final String vid = m.group(1);
+					Log.d(TAG, "Request Video:" + vid);
+					Thread th = new Thread(new Runnable() {
+						@Override
+						public void run() {
+							final VideoInformation v = new VideoInformation(
+									"http://ext.nicovideo.jp/api/getthumbinfo/"
+											+ vid);
+							mMainContext.runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									mMainContext.addRequest(v);
+								}
+							});
+						}
+					});
+					th.start();
+				}
+			}
+		}
 		if (comment.premium == 3) {
 			// TODO 動画再生
 			if (comment.text.indexOf("/play") == 0) {
@@ -367,7 +374,7 @@ public class CommentServer extends Thread {
 						b[i] = line.get(i);
 					}
 					final String s = new String(b, "UTF-8");
-//					Log.d(TAG, s);
+					// Log.d(TAG, s);
 					processData(s);
 					line.clear();
 				} else {

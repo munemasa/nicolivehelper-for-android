@@ -1,6 +1,7 @@
 package jp.miku39.android.nicolivehelper2;
 
 import jp.miku39.android.nicolivehelper2.fragments.CommentViewFragment;
+import jp.miku39.android.nicolivehelper2.fragments.RequestListFragment;
 import jp.miku39.android.nicolivehelper2.fragments.VideoPlaybackFragment;
 import jp.miku39.android.nicolivehelper2.libs.Lib;
 import jp.miku39.android.nicolivehelper2.libs.SimpleWebProxy;
@@ -38,6 +39,7 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 	final static int TAB_STOCK = 2;
 	final static int TAB_HISTORY = 3;
 	final static int MAX_TAB = 4;
+	View[] mTabViews = new View[MAX_TAB]; // タブ選択で表示・非表示を切り替える用
 
 	String mLvid;
 
@@ -45,7 +47,10 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 	PlayerStatus mPlayerStatus;
 	PublishStatus mPublishStatus;
 
+	int mPanes;
+
 	private CommentViewFragment mCommentFragment;
+	private RequestListFragment mRequestFragment;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -55,17 +60,26 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 				LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		setContentView(R.layout.activity_nicolivehelper_main);
 
+		mPanes = getResources().getInteger(R.integer.panes);
+
 		Intent intent = getIntent();
 		mLvid = intent.getStringExtra("lvid");
 		Log.d(TAG, "Request Id=" + mLvid);
 
-		//mCommentTable = (TableLayout) findViewById(R.id.commenttable);
-		mCommentFragment = (CommentViewFragment)getFragmentManager().findFragmentById(R.id.commentview_fragment);
+		mCommentFragment = (CommentViewFragment) getFragmentManager()
+				.findFragmentById(R.id.commentview_fragment);
+		mRequestFragment = (RequestListFragment) getFragmentManager()
+				.findFragmentById(R.id.requestlist_fragment);
+
+		mTabViews[0] = findViewById(R.id.tab_comment);
+		mTabViews[1] = findViewById(R.id.tab_request);
+		mTabViews[2] = null;
+		mTabViews[3] = findViewById(R.id.tab_history);
 
 		final ActionBar bar = getActionBar();
 		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-		initTab(bar);
+		initActionBarTab(bar);
 		startThreads();
 
 		// ソフトキーボードでSend押したときの処理
@@ -133,7 +147,7 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 		th.start();
 	}
 
-	private void initTab(ActionBar bar) {
+	private void initActionBarTab(ActionBar bar) {
 		Tab tab;
 
 		tab = bar.newTab();
@@ -215,30 +229,27 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 		showTab(n);
 	}
 
+	/**
+	 * タブ選択によってビューの表示・非表示を切り替える
+	 * 
+	 * @param n
+	 *            タブの番号
+	 */
 	void showTab(int n) {
-		View v;
-
-		switch (n) {
-		case TAB_COMMENT:
-			v = findViewById(R.id.tab_comment);
-			v.setVisibility(View.VISIBLE);
-
-			v = findViewById(R.id.tab_history);
-			v.setVisibility(View.INVISIBLE);
-			break;
-
-		case TAB_HISTORY:
-			v = findViewById(R.id.tab_history);
-			v.setVisibility(View.VISIBLE);
-
-			v = findViewById(R.id.tab_comment);
-			v.setVisibility(View.INVISIBLE);
-			break;
-
-		default:
-			break;
+		if (mPanes == 1) {
+			// スマホなどのシングルペインの場合、どれか一つを表示すればOK
+			for (int i = 0; i < MAX_TAB; i++) {
+				if (mTabViews[i] != null) {
+					if (i == n) {
+						mTabViews[i].setVisibility(View.VISIBLE);
+					} else {
+						mTabViews[i].setVisibility(View.INVISIBLE);
+					}
+				}
+			}
+		} else if (mPanes == 3) {
+			// 3ペインレイアウトなので、消す必要がないのもある
 		}
-
 	}
 
 	@Override
@@ -259,17 +270,17 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 
 		switch (item.getItemId()) {
 		case R.id.open_officialapp:
-			openOfficialApp( mLvid );
+			openOfficialApp(mLvid);
 			return true;
 
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
-	void openOfficialApp(String id){
-		String str = "http://live.nicovideo.jp/watch/"+id;
-		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(str) );
+
+	void openOfficialApp(String id) {
+		String str = "http://live.nicovideo.jp/watch/" + id;
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(str));
 		startActivity(intent);
 	}
 
@@ -304,6 +315,16 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 	 */
 	public void addComment(Comment c) {
 		mCommentFragment.addComment(c);
+	}
+
+	/**
+	 * リクエストを追加する
+	 * 
+	 * @param v
+	 *            動画情報
+	 */
+	public void addRequest(VideoInformation v) {
+		mRequestFragment.addRequest(v);
 	}
 
 	/**

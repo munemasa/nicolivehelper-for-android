@@ -51,18 +51,11 @@
 
             </LinearLayout>
 
-            <ScrollView
-                android:id="@+id/scrollView1"
+            <fragment
+                android:id="@id/commentview_fragment"
+                android:name="jp.miku39.android.nicolivehelper2.fragments.CommentViewFragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <TableLayout
-                    android:id="@+id/commenttable"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-
-                </TableLayout>
-            </ScrollView>
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

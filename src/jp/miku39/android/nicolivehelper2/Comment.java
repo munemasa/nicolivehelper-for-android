@@ -11,14 +11,14 @@ import org.w3c.dom.Document;
 
 public class Comment {
 
-	protected Integer comment_no;
-	protected String text;
-	protected Integer premium;
-	protected String user_id;
-	protected String mail;
-	protected String name;
-	protected Long date;
-	protected Integer anonimity;
+	public Integer comment_no;
+	public String text;
+	public Integer premium;
+	public String user_id;
+	public String mail;
+	public String name;
+	public Long date;
+	public Integer anonimity;
 	
 	public Comment(){
 		comment_no = 0;

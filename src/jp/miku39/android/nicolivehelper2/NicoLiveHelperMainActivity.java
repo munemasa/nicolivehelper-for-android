@@ -1,7 +1,6 @@
 package jp.miku39.android.nicolivehelper2;
 
-import java.util.Date;
-
+import jp.miku39.android.nicolivehelper2.fragments.CommentViewFragment;
 import jp.miku39.android.nicolivehelper2.fragments.VideoPlaybackFragment;
 import jp.miku39.android.nicolivehelper2.libs.Lib;
 import jp.miku39.android.nicolivehelper2.libs.SimpleWebProxy;
@@ -12,27 +11,21 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.view.View.OnTouchListener;
 import android.view.WindowManager.LayoutParams;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
@@ -52,7 +45,7 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 	PlayerStatus mPlayerStatus;
 	PublishStatus mPublishStatus;
 
-	TableLayout mCommentTable;
+	private CommentViewFragment mCommentFragment;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -66,7 +59,8 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 		mLvid = intent.getStringExtra("lvid");
 		Log.d(TAG, "Request Id=" + mLvid);
 
-		mCommentTable = (TableLayout) findViewById(R.id.commenttable);
+		//mCommentTable = (TableLayout) findViewById(R.id.commenttable);
+		mCommentFragment = (CommentViewFragment)getFragmentManager().findFragmentById(R.id.commentview_fragment);
 
 		final ActionBar bar = getActionBar();
 		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -308,38 +302,8 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 	 * @param c
 	 *            コメントデータ
 	 */
-	@SuppressWarnings("deprecation")
 	public void addComment(Comment c) {
-		final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		final View view = inflater.inflate(R.layout.commentrow, null);
-
-		TextView v;
-		v = (TextView) view.findViewById(R.id.comment_no);
-		v.setText(c.comment_no.toString());
-		v = (TextView) view.findViewById(R.id.comment_text);
-		if (c.premium == 2 || c.premium == 3) {
-			v.setBackgroundColor(0xffffeeee);
-		}
-
-		if (c.premium == 3) {
-			v.setText(c.text.replaceAll("<.*?>", ""));
-		} else {
-			v.setText(c.text);
-		}
-		v = (TextView) view.findViewById(R.id.comment_date);
-		final Date d = new Date(c.date * 1000);
-		int m = d.getMinutes();
-		int s = d.getSeconds();
-		final String datestr = d.getHours() + ":" + (m < 10 ? "0" + m : m)
-				+ ":" + (s < 10 ? "0" + s : s);
-		v.setText(datestr);
-
-		mCommentTable.addView(view, 0);
-		try {
-			mCommentTable.removeViewAt(100);
-		} catch (Exception e) {
-			// 存在チェックせずに削除してるだけなので何もしなくてok
-		}
+		mCommentFragment.addComment(c);
 	}
 
 	/**

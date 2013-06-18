@@ -1,14 +1,14 @@
 package jp.miku39.android.nicolivehelper2.libs;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -19,6 +19,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.w3c.dom.Document;
 
 import android.util.Log;
 
@@ -114,6 +115,27 @@ public class Http {
 					.getContent());
 			return body;
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static Document getDocument(String uri) {
+		HttpGet get = new HttpGet(uri);
+		get.addHeader("Cookie", NicoCookie.getCookie(uri));
+		DefaultHttpClient client = new DefaultHttpClient();
+		try {
+			HttpResponse response = client.execute(get);
+			int status = response.getStatusLine().getStatusCode();
+			if (status != HttpStatus.SC_OK) {
+				return null;
+			}
+			InputStream is = response.getEntity().getContent();
+			DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance()
+					.newDocumentBuilder();
+			Document document = docBuilder.parse(is);
+			return document;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

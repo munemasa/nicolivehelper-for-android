@@ -21,7 +21,7 @@ public class PlayerStatus {
 	static protected String sStatus;
 	static protected String sCode;
 
-	static protected String sId; // /< 放送ID
+	static protected String sLiveId; // /< 放送ID
 	static protected String sTitle;
 	static protected String sOwnerName;
 	static protected long sBaseTime;
@@ -74,7 +74,7 @@ public class PlayerStatus {
 				return;
 			}
 
-			sId = xpath.evaluate("/getplayerstatus/stream/id", document);
+			sLiveId = xpath.evaluate("/getplayerstatus/stream/id", document);
 			sTitle = xpath.evaluate("/getplayerstatus/stream/title", document);
 			sOwnerName = xpath.evaluate("/getplayerstatus/stream/owner_name",
 					document);

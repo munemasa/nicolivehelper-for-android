@@ -20,10 +20,10 @@ import android.util.Log;
 public class PublishStatus {
 	final static String TAG = "PublishStatus";
 
-	protected static String sToken = "";
-	protected static Long sStartTime = 0L;
-	protected static Long sEndTime = 0L;
-	protected static int sExclude = 0;
+	public static String sToken = "";
+	public static Long sStartTime = 0L;
+	public static Long sEndTime = 0L;
+	public static int sExclude = 0;
 
 	public PublishStatus(String lv) {
 		final String uri = "http://watch.live.nicovideo.jp/api/getpublishstatus?v="

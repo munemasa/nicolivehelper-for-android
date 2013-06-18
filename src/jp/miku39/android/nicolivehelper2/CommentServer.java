@@ -138,7 +138,7 @@ public class CommentServer extends Thread {
 	public boolean sendComment(String comment, String mail, String name) {
 		if (PlayerStatus.sIsOwner) {
 			final String uri = "http://watch.live.nicovideo.jp/api/broadcast/"
-					+ PlayerStatus.sId;
+					+ PlayerStatus.sLiveId;
 			HttpPost post = new HttpPost(uri);
 			post.addHeader("Cookie", NicoCookie.getCookie(uri));
 

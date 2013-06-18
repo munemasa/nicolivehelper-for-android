@@ -1,10 +1,18 @@
 package jp.miku39.android.nicolivehelper2;
 
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
 import jp.miku39.android.nicolivehelper2.fragments.CommentViewFragment;
 import jp.miku39.android.nicolivehelper2.fragments.RequestListFragment;
 import jp.miku39.android.nicolivehelper2.fragments.VideoPlaybackFragment;
+import jp.miku39.android.nicolivehelper2.libs.Http;
 import jp.miku39.android.nicolivehelper2.libs.Lib;
 import jp.miku39.android.nicolivehelper2.libs.SimpleWebProxy;
+
+import org.w3c.dom.Document;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
@@ -138,6 +146,12 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 			@Override
 			public void run() {
 				new PlayerStatus(mLvid);
+				
+	    		// 生主なら主コメ用のgetpublishstatusでトークン取りを
+	    		if( PlayerStatus.sIsOwner ){
+	    			new PublishStatus( PlayerStatus.sLiveId );
+	    		}
+
 				mCommunicationThread = new CommentServer(
 						NicoLiveHelperMainActivity.this, PlayerStatus.sAddr,
 						PlayerStatus.sPort, PlayerStatus.sThread);
@@ -282,6 +296,43 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 		String str = "http://live.nicovideo.jp/watch/" + id;
 		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(str));
 		startActivity(intent);
+	}
+
+	private void startWebcast() {
+		if( !PlayerStatus.sIsOwner ) return;
+
+		Thread th = new Thread( new Runnable(){
+			@Override
+			public void run() {
+				String conf = "http://watch.live.nicovideo.jp/api/configurestream/" + PlayerStatus.sLiveId +"?key=hq&value=0&version=2&token="+PublishStatus.sToken;
+				Document doc = Http.getDocument(conf);
+				boolean flg = false;
+			    if( doc.getElementsByTagName("response_configurestream").item(0).getAttributes().getNamedItem("status").getTextContent().equals("ok") ){
+			    	conf = "http://watch.live.nicovideo.jp/api/configurestream/" + PlayerStatus.sLiveId +"?key=exclude&value=0&version=2&token="+PublishStatus.sToken;
+					doc = Http.getDocument(conf);
+				    if( doc.getElementsByTagName("response_configurestream").item(0).getAttributes().getNamedItem("status").getTextContent().equals("ok") ){
+				    	flg = true;
+				    	// 放送開始時刻を更新
+			            XPath xpath = XPathFactory.newInstance().newXPath();
+			            try {
+							PlayerStatus.sStartTime = Long.parseLong( xpath.evaluate("//start_time", doc) );
+						    PlayerStatus.sEndTime = Long.parseLong( xpath.evaluate("//end_time",doc) );
+						} catch (NumberFormatException e) {
+							e.printStackTrace();
+						} catch (XPathExpressionException e) {
+							e.printStackTrace();
+						}
+				    }
+			    }
+		    	// TODO ダイアログ表示を消す
+			    runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						showToast("放送を開始しました", Toast.LENGTH_LONG);
+					}
+				});
+			}} );
+		th.start();
 	}
 
 	/**

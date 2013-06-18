@@ -80,6 +80,20 @@ public class VideoPlaybackFragment extends Fragment implements Callback {
 		Log.d(TAG, "onDetach");
 		super.onDetach();
 	}
+	
+	@Override
+	public void onResume() {
+		Log.d(TAG,"onResume");
+		// TODO Auto-generated method stub
+		super.onResume();
+	}
+	
+	@Override
+	public void onPause() {
+		Log.d(TAG,"onPause");
+		// TODO Auto-generated method stub
+		super.onPause();
+	}
 
 	void playVideo() {
 		Thread th = new Thread(new Runnable() {

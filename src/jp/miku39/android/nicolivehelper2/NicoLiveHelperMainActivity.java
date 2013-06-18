@@ -279,12 +279,21 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 		return true;
 	}
 
+	void openAboutActivity(){
+		Intent intent = new Intent(this,AboutActivity.class);
+		startActivity(intent);
+	}
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		switch (item.getItemId()) {
 		case R.id.open_officialapp:
 			openOfficialApp(mLvid);
+			return true;
+			
+		case R.id.about:
+			openAboutActivity();
 			return true;
 
 		default:

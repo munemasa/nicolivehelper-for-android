@@ -41,6 +41,7 @@
             android:name="jp.miku39.android.nicolivehelper2.test.TabTestActivity"
             android:label="@string/title_activity_tab_test" >
         </activity>
+        <activity android:name="AboutActivity"></activity>
     </application>
 
 </manifest>

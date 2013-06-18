@@ -141,7 +141,7 @@ public class SimpleWebProxy {
 				}
 				Log.d(TAG, "done.");
 
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 
 			} finally {

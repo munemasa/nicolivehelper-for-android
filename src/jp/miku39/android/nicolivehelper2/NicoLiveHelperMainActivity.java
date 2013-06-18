@@ -4,6 +4,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import jp.miku39.android.nicolivehelper2.fragments.AboutDialogFragment;
 import jp.miku39.android.nicolivehelper2.fragments.CommentViewFragment;
 import jp.miku39.android.nicolivehelper2.fragments.RequestListFragment;
 import jp.miku39.android.nicolivehelper2.fragments.VideoPlaybackFragment;
@@ -18,6 +19,7 @@ import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
@@ -280,8 +282,19 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 	}
 
 	void openAboutActivity(){
-		Intent intent = new Intent(this,AboutActivity.class);
-		startActivity(intent);
+	    // DialogFragment.show() will take care of adding the fragment
+	    // in a transaction.  We also want to remove any currently showing
+	    // dialog, so make our own transaction and take care of that here.
+	    FragmentTransaction ft = getFragmentManager().beginTransaction();
+	    Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+	    if (prev != null) {
+	        ft.remove(prev);
+	    }
+	    ft.addToBackStack(null);
+
+	    // Create and show the dialog.
+	    DialogFragment newFragment = AboutDialogFragment.newInstance();
+	    newFragment.show(ft, "dialog");
 	}
 	
 	@Override

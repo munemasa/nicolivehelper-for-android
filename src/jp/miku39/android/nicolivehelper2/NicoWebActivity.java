@@ -29,7 +29,7 @@ public class NicoWebActivity extends Activity implements
 	final static String TAG = "NicoWebActivity";
 	// final static String sFirstUri =
 	// "https://secure.nicovideo.jp/secure/login_form";
-	final static String sFirstUri = "http://live.nicovideo.jp/my";
+	final static String sFirstUri = "http://sp.live.nicovideo.jp/my";
 	// final static String sFirstUri = "http://live.nicovideo.jp/";
 	private WebView mWeb;
 
@@ -120,14 +120,14 @@ public class NicoWebActivity extends Activity implements
 		btn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mWeb.loadUrl("http://live.nicovideo.jp/");
+				mWeb.loadUrl("http://sp.live.nicovideo.jp/");
 			}
 		});
 		btn = (Button) findViewById(R.id.btn_webmypage);
 		btn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mWeb.loadUrl("http://live.nicovideo.jp/my");
+				mWeb.loadUrl("http://sp.live.nicovideo.jp/my");
 			}
 		});
 	}

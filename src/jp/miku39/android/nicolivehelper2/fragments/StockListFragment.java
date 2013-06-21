@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class StockListFragment extends ListFragment {
 	final static String TAG = "StockListFragment";
@@ -69,6 +70,10 @@ public class StockListFragment extends ListFragment {
 					getActivity().runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
+							if( v.mVideoId==null ){
+								((NicoLiveHelperMainActivity)getActivity()).showToast("動画情報の取得に失敗しました", Toast.LENGTH_LONG);
+								return;
+							}
 							addStock(v);
 							mEditText.setText("");
 						}

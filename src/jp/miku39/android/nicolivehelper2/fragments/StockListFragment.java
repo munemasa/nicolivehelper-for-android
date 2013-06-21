@@ -1,5 +1,12 @@
 package jp.miku39.android.nicolivehelper2.fragments;
 
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 
 import jp.miku39.android.nicolivehelper2.NicoLiveHelperMainActivity;
@@ -10,6 +17,7 @@ import jp.miku39.android.nicolivehelper2.VideoListAdapter;
 import jp.miku39.android.nicolivehelper2.libs.Lib;
 import android.app.AlertDialog;
 import android.app.ListFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +32,7 @@ import android.widget.Toast;
 
 public class StockListFragment extends ListFragment {
 	final static String TAG = "StockListFragment";
+	final static String sFilename ="stockfile";
 
 	ArrayList<VideoInformation> mStocks = new ArrayList<VideoInformation>();
 	VideoListAdapter mListViewAdapter;
@@ -33,11 +42,57 @@ public class StockListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		readFromFile();
+	}
+	
+	void writeToFile(){
+		try {
+			OutputStream os = getActivity().openFileOutput( sFilename, Context.MODE_PRIVATE );
+			ObjectOutputStream oos;
+			oos = new ObjectOutputStream( os );
+
+			for(int i=0;i<mStocks.size();i++){
+				oos.writeObject( mStocks.get(i) );
+			}
+			
+			oos.close();
+			os.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	void readFromFile(){
+		mStocks.clear();
+		try {
+			InputStream is = getActivity().openFileInput( sFilename );
+			ObjectInputStream ois;
+			ois = new ObjectInputStream( is );
+			try{
+				while(true){
+					final VideoInformation v = (VideoInformation) ois.readObject();
+					if( v==null ) break;
+					mStocks.add( v );
+				}
+			}catch( EOFException e){
+			}
+			ois.close();
+			is.close();
+		} catch (StreamCorruptedException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		writeToFile();
 	}
 
 	@Override

@@ -35,7 +35,8 @@ public class VideoListAdapter extends ArrayAdapter {
 		TextView text;
 
 		ImageView image = (ImageView) view.findViewById(R.id.video_thumbnail);
-		image.setImageBitmap(item.mIcon);
+		if (item.mIcon != null)
+			image.setImageBitmap(item.mIcon);
 
 		text = (TextView) view.findViewById(R.id.video_title);
 		text.setText(item.mVideoId + " " + item.mTitle);

@@ -10,5 +10,8 @@
     <string name="title_section3">Section 3</string>
     <string name="title_activity_tab_test">TabTestActivity</string>
     <string name="send">送信</string>
+    <string name="add">追加</string>
+    <string name="no_stock">ストックはありません</string>
+    <string name="no_request">リクエストはありません</string>
 
 </resources>

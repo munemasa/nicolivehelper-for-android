@@ -7,6 +7,7 @@ import javax.xml.xpath.XPathFactory;
 import jp.miku39.android.nicolivehelper2.fragments.AboutDialogFragment;
 import jp.miku39.android.nicolivehelper2.fragments.CommentViewFragment;
 import jp.miku39.android.nicolivehelper2.fragments.RequestListFragment;
+import jp.miku39.android.nicolivehelper2.fragments.StockListFragment;
 import jp.miku39.android.nicolivehelper2.fragments.VideoPlaybackFragment;
 import jp.miku39.android.nicolivehelper2.libs.Http;
 import jp.miku39.android.nicolivehelper2.libs.Lib;
@@ -61,6 +62,7 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 
 	private CommentViewFragment mCommentFragment;
 	private RequestListFragment mRequestFragment;
+	private StockListFragment mStockFragment;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -80,10 +82,12 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 				.findFragmentById(R.id.commentview_fragment);
 		mRequestFragment = (RequestListFragment) getFragmentManager()
 				.findFragmentById(R.id.requestlist_fragment);
+		mStockFragment = (StockListFragment) getFragmentManager()
+				.findFragmentById(R.id.stocklist_fragment);
 
 		mTabViews[0] = findViewById(R.id.tab_comment);
 		mTabViews[1] = findViewById(R.id.tab_request);
-		mTabViews[2] = null;
+		mTabViews[2] = findViewById(R.id.tab_stock);
 		mTabViews[3] = findViewById(R.id.tab_history);
 
 		final ActionBar bar = getActionBar();
@@ -148,11 +152,19 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 			@Override
 			public void run() {
 				new PlayerStatus(mLvid);
-				
-	    		// 生主なら主コメ用のgetpublishstatusでトークン取りを
-	    		if( PlayerStatus.sIsOwner ){
-	    			new PublishStatus( PlayerStatus.sLiveId );
-	    		}
+
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						String s = PlayerStatus.sTitle + "\n";
+						addHistory(s);
+					}
+				});
+
+				// 生主なら主コメ用のgetpublishstatusでトークン取りを
+				if (PlayerStatus.sIsOwner) {
+					new PublishStatus(PlayerStatus.sLiveId);
+				}
 
 				mCommunicationThread = new CommentServer(
 						NicoLiveHelperMainActivity.this, PlayerStatus.sAddr,
@@ -281,22 +293,22 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 		return true;
 	}
 
-	void openAboutActivity(){
-	    // DialogFragment.show() will take care of adding the fragment
-	    // in a transaction.  We also want to remove any currently showing
-	    // dialog, so make our own transaction and take care of that here.
-	    FragmentTransaction ft = getFragmentManager().beginTransaction();
-	    Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-	    if (prev != null) {
-	        ft.remove(prev);
-	    }
-	    ft.addToBackStack(null);
+	void openAboutActivity() {
+		// DialogFragment.show() will take care of adding the fragment
+		// in a transaction. We also want to remove any currently showing
+		// dialog, so make our own transaction and take care of that here.
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+		if (prev != null) {
+			ft.remove(prev);
+		}
+		ft.addToBackStack(null);
 
-	    // Create and show the dialog.
-	    DialogFragment newFragment = AboutDialogFragment.newInstance();
-	    newFragment.show(ft, "dialog");
+		// Create and show the dialog.
+		DialogFragment newFragment = AboutDialogFragment.newInstance();
+		newFragment.show(ft, "dialog");
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -304,7 +316,7 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 		case R.id.open_officialapp:
 			openOfficialApp(mLvid);
 			return true;
-			
+
 		case R.id.about:
 			openAboutActivity();
 			return true;
@@ -321,39 +333,53 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 	}
 
 	private void startWebcast() {
-		if( !PlayerStatus.sIsOwner ) return;
+		if (!PlayerStatus.sIsOwner)
+			return;
 
-		Thread th = new Thread( new Runnable(){
+		Thread th = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				String conf = "http://watch.live.nicovideo.jp/api/configurestream/" + PlayerStatus.sLiveId +"?key=hq&value=0&version=2&token="+PublishStatus.sToken;
+				String conf = "http://watch.live.nicovideo.jp/api/configurestream/"
+						+ PlayerStatus.sLiveId
+						+ "?key=hq&value=0&version=2&token="
+						+ PublishStatus.sToken;
 				Document doc = Http.getDocument(conf);
 				boolean flg = false;
-			    if( doc.getElementsByTagName("response_configurestream").item(0).getAttributes().getNamedItem("status").getTextContent().equals("ok") ){
-			    	conf = "http://watch.live.nicovideo.jp/api/configurestream/" + PlayerStatus.sLiveId +"?key=exclude&value=0&version=2&token="+PublishStatus.sToken;
+				if (doc.getElementsByTagName("response_configurestream")
+						.item(0).getAttributes().getNamedItem("status")
+						.getTextContent().equals("ok")) {
+					conf = "http://watch.live.nicovideo.jp/api/configurestream/"
+							+ PlayerStatus.sLiveId
+							+ "?key=exclude&value=0&version=2&token="
+							+ PublishStatus.sToken;
 					doc = Http.getDocument(conf);
-				    if( doc.getElementsByTagName("response_configurestream").item(0).getAttributes().getNamedItem("status").getTextContent().equals("ok") ){
-				    	flg = true;
-				    	// 放送開始時刻を更新
-			            XPath xpath = XPathFactory.newInstance().newXPath();
-			            try {
-							PlayerStatus.sStartTime = Long.parseLong( xpath.evaluate("//start_time", doc) );
-						    PlayerStatus.sEndTime = Long.parseLong( xpath.evaluate("//end_time",doc) );
+					if (doc.getElementsByTagName("response_configurestream")
+							.item(0).getAttributes().getNamedItem("status")
+							.getTextContent().equals("ok")) {
+						flg = true;
+						// 放送開始時刻を更新
+						XPath xpath = XPathFactory.newInstance().newXPath();
+						try {
+							PlayerStatus.sStartTime = Long.parseLong(xpath
+									.evaluate("//start_time", doc));
+							PlayerStatus.sEndTime = Long.parseLong(xpath
+									.evaluate("//end_time", doc));
 						} catch (NumberFormatException e) {
 							e.printStackTrace();
 						} catch (XPathExpressionException e) {
 							e.printStackTrace();
 						}
-				    }
-			    }
-		    	// TODO ダイアログ表示を消す
-			    runOnUiThread(new Runnable() {
+					}
+				}
+				// TODO ダイアログ表示を消す
+				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
 						showToast("放送を開始しました", Toast.LENGTH_LONG);
 					}
 				});
-			}} );
+			}
+		});
 		th.start();
 	}
 
@@ -374,15 +400,16 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 		});
 		th.start();
 	}
-	
-	public void sendComment(final String comment, final String mail, final String name ){
+
+	public void sendComment(final String comment, final String mail,
+			final String name) {
 		Thread th = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				mCommunicationThread.sendComment(comment, mail, name);
 			}
 		});
-		th.start();		
+		th.start();
 	}
 
 	public void addHistory(String s) {

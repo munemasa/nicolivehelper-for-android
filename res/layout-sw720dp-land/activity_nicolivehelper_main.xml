@@ -72,6 +72,20 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/tab_stock"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="visible" >
+
+            <fragment
+                android:id="@+id/stocklist_fragment"
+                android:name="jp.miku39.android.nicolivehelper2.fragments.StockListFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/tab_history"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -165,6 +165,9 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 					public void run() {
 						String s = PlayerStatus.sTitle + "\n";
 						addHistory(s);
+
+						ActionBar bar = getActionBar();
+						bar.setTitle(PlayerStatus.sTitle);
 					}
 				});
 

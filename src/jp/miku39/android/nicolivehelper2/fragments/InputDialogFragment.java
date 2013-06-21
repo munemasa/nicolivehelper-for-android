@@ -39,6 +39,7 @@ public class InputDialogFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		final EditText et = new EditText(getActivity());
+		et.setSingleLine();
 
 		return new AlertDialog.Builder(getActivity())
 				.setIcon(R.drawable.ic_launcher)

@@ -108,6 +108,9 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 					Lib.hideSoftwareKeyboard(NicoLiveHelperMainActivity.this, v);
 					sendComment();
 					handled = true;
+
+					EditText et = (EditText) findViewById(R.id.inputcomment);
+					et.setText("");
 				}
 				return handled;
 			}
@@ -135,6 +138,9 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 			public void onClick(View v) {
 				Lib.hideSoftwareKeyboard(NicoLiveHelperMainActivity.this, v);
 				sendComment();
+
+				EditText et = (EditText) findViewById(R.id.inputcomment);
+				et.setText("");
 			}
 		});
 	}

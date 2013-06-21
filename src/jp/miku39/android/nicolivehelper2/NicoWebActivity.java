@@ -150,6 +150,13 @@ public class NicoWebActivity extends Activity implements
 				text);
 		newFragment.show(ft, "dialog");
 	}
+	
+	/**
+	 * 番組の新規作成ページに飛ぶだけ
+	 */
+	void createLive(){
+		mWeb.loadUrl("http://live.nicovideo.jp/editstream");
+	}
 
 	@Override
 	public void onReturnValue(InputDialogFragment frag, String str) {
@@ -178,6 +185,10 @@ public class NicoWebActivity extends Activity implements
 			connectLive();
 			break;
 			
+		case R.id.menu_create_live:
+			createLive();
+			break;
+
 		case R.id.menu_about:
 			NicoLiveHelperMainActivity.openAboutDialog(this);
 			break;

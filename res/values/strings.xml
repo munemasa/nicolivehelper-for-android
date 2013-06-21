@@ -17,5 +17,6 @@
     <string name="open_official_nicoapp">ニコニコ公式アプリで開く</string>
     <string name="about">About...</string>
     <string name="startlive">放送を始める</string>
+    <string name="create_live">番組の新規作成</string>
 
 </resources>

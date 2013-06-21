@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/menu_connect_direct" android:title="@string/direct_input_lvid"></item>
+    <item android:id="@+id/menu_create_live" android:title="@string/create_live"></item><item android:id="@+id/menu_connect_direct" android:title="@string/direct_input_lvid"></item>
     <item android:id="@id/menu_about" android:title="@string/about"></item>
+    
 </menu>

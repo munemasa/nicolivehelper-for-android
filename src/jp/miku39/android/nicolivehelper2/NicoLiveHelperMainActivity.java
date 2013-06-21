@@ -62,6 +62,7 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 
 	private CommentViewFragment mCommentFragment;
 	private RequestListFragment mRequestFragment;
+	@SuppressWarnings("unused")
 	private StockListFragment mStockFragment;
 
 	/** Called when the activity is first created. */
@@ -244,17 +245,14 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 
 	@Override
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
-		Log.d(TAG, "onTabReselected");
 	}
-
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
-		Log.d(TAG, "onTabSelected");
-
 		int n = tab.getPosition();
 		showTab(n);
+	}
+	@Override
+	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 	}
 
 	/**
@@ -278,12 +276,6 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 		} else if (mPanes == 3) {
 			// 3ペインレイアウトなので、消す必要がないのもある
 		}
-	}
-
-	@Override
-	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
-		Log.d(TAG, "onTabUnselected");
 	}
 
 	@Override
@@ -313,6 +305,10 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		switch (item.getItemId()) {
+		case R.id.menu_startlive:
+			startNicoLive();
+			return true;
+			
 		case R.id.menu_open_officialapp:
 			openOfficialApp(mLvid);
 			return true;
@@ -332,7 +328,7 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 		startActivity(intent);
 	}
 
-	private void startWebcast() {
+	private void startNicoLive() {
 		if (!PlayerStatus.sIsOwner)
 			return;
 

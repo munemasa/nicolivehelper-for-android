@@ -16,5 +16,6 @@
     <string name="direct_input_lvid">放送IDを入力して接続</string>
     <string name="open_official_nicoapp">ニコニコ公式アプリで開く</string>
     <string name="about">About...</string>
+    <string name="startlive">放送を始める</string>
 
 </resources>

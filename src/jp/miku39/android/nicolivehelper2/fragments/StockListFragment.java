@@ -95,9 +95,6 @@ public class StockListFragment extends ListFragment {
 		VideoInformation v = mStocks.get(n);
 		String str = "/play " + v.mVideoId;
 		((NicoLiveHelperMainActivity) getActivity()).sendComment(str, "", "");
-
-		mStocks.remove(n);
-		mListViewAdapter.notifyDataSetChanged();
 	}
 
 	void prepareVideo(int n) {

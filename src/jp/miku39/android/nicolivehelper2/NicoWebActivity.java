@@ -151,7 +151,7 @@ public class NicoWebActivity extends Activity implements
 	}
 
 	@Override
-	public void onReturnValue(String str) {
+	public void onReturnValue(InputDialogFragment frag, String str) {
 		Intent intent = new Intent(NicoWebActivity.this,
 				NicoLiveHelperMainActivity.class);
 		intent.putExtra("lvid", str);

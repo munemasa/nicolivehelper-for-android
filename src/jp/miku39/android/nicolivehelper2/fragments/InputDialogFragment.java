@@ -16,7 +16,7 @@ public class InputDialogFragment extends DialogFragment {
 	String mText;
 
 	public interface Callback {
-		public void onReturnValue(String str);
+		public void onReturnValue(InputDialogFragment frag, String str);
 	}
 
 	public static InputDialogFragment newInstance(String caption, String text) {
@@ -51,7 +51,7 @@ public class InputDialogFragment extends DialogFragment {
 									int whichButton) {
 								String str = et.getEditableText().toString();
 								Log.d(TAG,str);
-								((Callback)getActivity()).onReturnValue(str);
+								((Callback)getActivity()).onReturnValue(InputDialogFragment.this, str);
 								dismiss();
 							}
 						})

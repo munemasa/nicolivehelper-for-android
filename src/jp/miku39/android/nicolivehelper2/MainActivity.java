@@ -23,6 +23,13 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		// TODO 起動先を変更
+//		if( true) {
+//			Intent intent = new Intent(this,NicoWebActivity.class);
+//			startActivity(intent);
+//			finish();
+//		}
+
 		int panes = getResources().getInteger(R.integer.panes);
 		Log.d(TAG,"Number of panes: "+panes);
 

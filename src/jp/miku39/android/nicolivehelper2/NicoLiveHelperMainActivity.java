@@ -374,6 +374,16 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 		});
 		th.start();
 	}
+	
+	public void sendComment(final String comment, final String mail, final String name ){
+		Thread th = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				mCommunicationThread.sendComment(comment, mail, name);
+			}
+		});
+		th.start();		
+	}
 
 	public void addHistory(String s) {
 		EditText edit = (EditText) findViewById(R.id.edit_history);

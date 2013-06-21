@@ -248,8 +248,8 @@ public class CommentServer extends Thread {
 			}
 		}
 		if (comment.premium == 3) {
-			// TODO 動画再生
 			if (comment.text.indexOf("/play") == 0) {
+				// 動画再生
 				Pattern p = Pattern
 						.compile("^/play.*smile:((sm|nm|so)\\d+).*\"(.*)\"");
 				Matcher m = p.matcher(comment.text);
@@ -262,6 +262,7 @@ public class CommentServer extends Thread {
 							mMainContext.addHistory(vid + " " + title + "\n");
 
 							if (comment.date > PlayerStatus.sConnectedTime) {
+								// 過去ログじゃないときには動画のプレイバックを行う
 								if (vid.indexOf("sm") == 0
 										|| vid.indexOf("so") == 0) {
 									mMainContext.playbackVideo(vid);

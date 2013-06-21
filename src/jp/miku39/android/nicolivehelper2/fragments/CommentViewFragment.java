@@ -32,9 +32,9 @@ public class CommentViewFragment extends Fragment {
 
 		View v = inflater.inflate(R.layout.fragment_commentview, container,
 				false);
-		
-		mCommentTable = (TableLayout)v.findViewById(R.id.commenttable);
-		
+
+		mCommentTable = (TableLayout) v.findViewById(R.id.commenttable);
+
 		return v;
 	}
 
@@ -46,12 +46,16 @@ public class CommentViewFragment extends Fragment {
 	 */
 	@SuppressWarnings("deprecation")
 	public void addComment(Comment c) {
-		final LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		if (getActivity() == null)
+			return;
+		final LayoutInflater inflater = (LayoutInflater) getActivity()
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		final View view = inflater.inflate(R.layout.commentrow, null);
 
 		TextView v;
 		v = (TextView) view.findViewById(R.id.comment_no);
 		v.setText(c.comment_no.toString());
+
 		v = (TextView) view.findViewById(R.id.comment_text);
 		if (c.premium == 2 || c.premium == 3) {
 			v.setBackgroundColor(0xffffeeee);

@@ -18,24 +18,24 @@ import org.w3c.dom.Document;
 public class PlayerStatus {
 	final static String TAG = "PlayerStatus";
 
-	static protected String sStatus;
-	static protected String sCode;
+	static public String sStatus;
+	static public String sCode;
 
-	static protected String sLiveId; // /< 放送ID
-	static protected String sTitle;
-	static protected String sOwnerName;
-	static protected long sBaseTime;
-	static protected long sOpenTime;
-	static protected long sEndTime;
-	static protected long sStartTime;
-	static protected String sCommunity;
-	static protected boolean sIsOwner;
-	static protected String sIsPremium;
-	static protected String sAddr;
-	static protected int sPort;
-	static protected String sThread;
-	static protected long sConnectedTime;
-	static protected String sUserId;
+	static public String sLiveId; // /< 放送ID
+	static public String sTitle;
+	static public String sOwnerName;
+	static public long sBaseTime;
+	static public long sOpenTime;
+	static public long sEndTime;
+	static public long sStartTime;
+	static public String sCommunity;
+	static public boolean sIsOwner;
+	static public String sIsPremium;
+	static public String sAddr;
+	static public int sPort;
+	static public String sThread;
+	static public long sConnectedTime;
+	static public String sUserId;
 
 	public PlayerStatus(String lv) {
 		// http://watch.live.nicovideo.jp/api/getplayerstatus?v=lv0

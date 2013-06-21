@@ -4,8 +4,10 @@ import java.util.Date;
 
 import jp.miku39.android.nicolivehelper2.Comment;
 import jp.miku39.android.nicolivehelper2.R;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +23,7 @@ public class CommentViewFragment extends Fragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+		Log.d(TAG,"onCreate");
 		super.onCreate(savedInstanceState);
 	}
 
@@ -36,6 +38,54 @@ public class CommentViewFragment extends Fragment {
 		mCommentTable = (TableLayout) v.findViewById(R.id.commenttable);
 
 		return v;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		Log.d(TAG,"onActivityCreated");
+		super.onActivityCreated(savedInstanceState);
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		Log.d(TAG,"onAttach");
+		super.onAttach(activity);
+	}
+
+	@Override
+	public void onDestroy() {
+		Log.d(TAG,"onDestroy");
+		super.onDestroy();
+	}
+
+	@Override
+	public void onDestroyView() {
+		Log.d(TAG,"onDestroyView");
+		super.onDestroyView();
+	}
+
+	@Override
+	public void onDetach() {
+		Log.d(TAG,"onDetach");
+		super.onDetach();
+	}
+
+	@Override
+	public void onPause() {
+		Log.d(TAG,"onPause");
+		super.onPause();
+	}
+
+	@Override
+	public void onResume() {
+		Log.d(TAG,"onResume");
+		super.onResume();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		Log.d(TAG,"onSaveInstanceState");
+		super.onSaveInstanceState(outState);
 	}
 
 	/**

@@ -3,6 +3,7 @@ package jp.miku39.android.nicolivehelper2;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import jp.miku39.android.nicolivehelper2.fragments.AboutDialogFragment;
 import jp.miku39.android.nicolivehelper2.fragments.InputDialogFragment;
 import jp.miku39.android.nicolivehelper2.libs.Lib;
 import android.annotation.SuppressLint;
@@ -158,30 +159,31 @@ public class NicoWebActivity extends Activity implements
 		startActivity(intent);
 	}
 
-	private static final int MENU_ID_MENU1 = (Menu.FIRST + 1);
-	private static final int MENU_ID_MENU2 = (Menu.FIRST + 2);
-	private static final int MENU_ID_MENU3 = (Menu.FIRST + 3);
-	private static final int MENU_ID_MENU4 = (Menu.FIRST + 4);
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(Menu.NONE, MENU_ID_MENU1, Menu.NONE, "放送IDを入力して接続");
-		return super.onCreateOptionsMenu(menu);
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.nicowebmenu, menu);
+		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO メニュー
+		// メニュー
 		switch (item.getItemId()) {
 		default:
 			super.onOptionsItemSelected(item);
 			break;
-		case MENU_ID_MENU1:
-			// TODO 放送IDを入力して接続
+		case R.id.menu_connect_direct:
+			// 放送IDを入力して接続
 			connectLive();
+			break;
+			
+		case R.id.menu_about:
+			NicoLiveHelperMainActivity.openAboutDialog(this);
 			break;
 		}
 		return true;
 	}
+
 
 }

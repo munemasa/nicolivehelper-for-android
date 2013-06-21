@@ -293,12 +293,12 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 		return true;
 	}
 
-	void openAboutActivity() {
+	public static void openAboutDialog(Activity activity) {
 		// DialogFragment.show() will take care of adding the fragment
 		// in a transaction. We also want to remove any currently showing
 		// dialog, so make our own transaction and take care of that here.
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+		FragmentTransaction ft = activity.getFragmentManager().beginTransaction();
+		Fragment prev = activity.getFragmentManager().findFragmentByTag("dialog");
 		if (prev != null) {
 			ft.remove(prev);
 		}
@@ -313,12 +313,12 @@ public class NicoLiveHelperMainActivity extends Activity implements TabListener 
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		switch (item.getItemId()) {
-		case R.id.open_officialapp:
+		case R.id.menu_open_officialapp:
 			openOfficialApp(mLvid);
 			return true;
 
-		case R.id.about:
-			openAboutActivity();
+		case R.id.menu_about:
+			openAboutDialog(this);
 			return true;
 
 		default:

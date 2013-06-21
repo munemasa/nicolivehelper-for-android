@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/open_officialapp" android:title="ニコニコ公式アプリで開く" android:showAsAction="never"></item>
-    <item android:id="@+id/about" android:title="About..." android:showAsAction="never"></item>
+    <item android:id="@+id/menu_open_officialapp" android:title="@string/open_official_nicoapp" android:showAsAction="never"></item>
+    <item android:id="@+id/menu_about" android:title="@string/about" android:showAsAction="never"></item>
     
 
 </menu>

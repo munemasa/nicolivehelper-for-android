@@ -113,10 +113,11 @@ public class VideoInformation {
 				
 				node = node.getNextSibling();
 			}while( node != null );
+			loadThumbnail();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		loadThumbnail();
 	}
 
 	public void loadThumbnail(){

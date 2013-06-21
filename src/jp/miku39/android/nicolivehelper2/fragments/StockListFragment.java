@@ -120,7 +120,7 @@ public class StockListFragment extends ListFragment {
 	}
 
 	public void addStock() {
-		final String video_id = mEditText.getEditableText().toString();
+		final String video_id = mEditText.getEditableText().toString().trim();
 		Thread th = new Thread(new Runnable() {
 			@Override
 			public void run() {

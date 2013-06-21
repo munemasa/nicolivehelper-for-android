@@ -8,7 +8,7 @@ import jp.miku39.android.nicolivehelper2.R;
 import jp.miku39.android.nicolivehelper2.VideoInformation;
 import jp.miku39.android.nicolivehelper2.VideoListAdapter;
 import android.app.AlertDialog;
-import android.app.Fragment;
+import android.app.ListFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,7 +19,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class RequestListFragment extends Fragment implements
+public class RequestListFragment extends ListFragment implements
 		OnItemClickListener {
 	final static String TAG = "RequestListFragment";
 	private ListView mRequestListView;
@@ -39,15 +39,16 @@ public class RequestListFragment extends Fragment implements
 
 		View v = inflater.inflate(R.layout.fragment_request, container, false);
 
-		mRequestListView = (ListView) v.findViewById(R.id.lv_requestlist);
-
 		mListViewAdapter = new VideoListAdapter(getActivity(),
 				R.layout.videoinformation, mRequests);
-		mRequestListView.setAdapter(mListViewAdapter);
-
-		mRequestListView.setOnItemClickListener(this);
-
+		setListAdapter( mListViewAdapter );
 		return v;
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		getListView().setOnItemClickListener(this);
 	}
 
 	public void addRequest(VideoInformation v) {
